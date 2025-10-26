@@ -1,5 +1,8 @@
 #include "BigInteger.h"
 
+#include <cassert>
+#include <sstream>
+
 BigInteger::BigInteger()
 	: m_digits{ 0 }, m_isNegative{ false }
 {
@@ -20,14 +23,14 @@ BigInteger::BigInteger(std::int32_t number)
 
 	while (absNumber > 0)
 	{
-		m_digits.push_back(static_cast<std::int32_t>(absNumber % BigInteger::BASE));
+		m_digits.push_back(static_cast<std::uint32_t>(absNumber % BigInteger::BASE));
 
 		absNumber /= BigInteger::BASE;
 	}
 }
 
 BigInteger::BigInteger(std::uint32_t number)
-	: m_isNegative{ false }, m_digits{ number }
+	: m_isNegative{ false }
 {
 	if (number == 0)
 	{
@@ -40,7 +43,7 @@ BigInteger::BigInteger(std::uint32_t number)
 
 	while (tempNumber > 0)
 	{
-		m_digits.push_back(static_cast<std::int32_t>(tempNumber % BigInteger::BASE));
+		m_digits.push_back(static_cast<std::uint32_t>(tempNumber % BigInteger::BASE));
 
 		tempNumber /= BigInteger::BASE;
 	}
@@ -88,7 +91,10 @@ BigInteger::BigInteger(const std::string& number)
 {
 	if (number.empty())
 	{
-		throw;
+		m_digits.push_back(0);
+		m_isNegative = false;
+
+		return;
 	}
 
 	m_isNegative = number[0] == '-';
@@ -109,7 +115,7 @@ BigInteger::BigInteger(const std::string& number)
 			--position;
 		}
 
-		m_digits.push_back(static_cast<std::uint32_t>(tempNumber % BigInteger::BASE));
+		m_digits.push_back(static_cast<std::uint32_t>(tempNumber));
 	}
 }
 
@@ -144,6 +150,12 @@ BigInteger::BigInteger(std::vector<std::uint32_t>&& digits, bool isNegative)
 	: m_digits{ std::move(digits) }, m_isNegative{ isNegative }
 {
 	
+}
+
+BigInteger::BigInteger(const std::vector<std::uint32_t>& digits, bool isNegative)
+	: m_digits{ digits }, m_isNegative{ isNegative }
+{
+
 }
 
 BigInteger BigInteger::operator+(const BigInteger& other)
@@ -228,22 +240,12 @@ bool BigInteger::operator>(const BigInteger& other) const
 
 bool BigInteger::operator<=(const BigInteger& other) const
 {
-	if (*this == other)
-	{
-		return true;
-	}
-
-	return *this < other;
+	return (*this == other) || (*this < other);
 }
 
 bool BigInteger::operator>=(const BigInteger& other) const
 {
-	if (*this == other)
-	{
-		return true;
-	}
-
-	return !(*this < other);
+	return (*this == other) || !(*this < other);
 }
 
 bool BigInteger::operator==(const BigInteger& other) const
@@ -272,4 +274,63 @@ bool BigInteger::operator==(const BigInteger& other) const
 bool BigInteger::operator!=(const BigInteger& other) const
 {
 	return !(*this == other);
+}
+
+void BigInteger::Normalize(std::string& number)
+{
+	if (number[0] != '-' || number[0] < '0' && number[0] > '9')
+	{
+		assert(false);
+
+		number = "0";
+
+		return;
+	}
+
+	size_t length = number.size();
+	size_t position = 0;
+
+	if (number[position] == '-')
+	{
+		++position;
+	}
+
+	while (position < length)
+	{
+		if (number[0] < '0' && number[0] > '9')
+		{
+			assert(false);
+
+			number = "0";
+
+			return;
+		}
+
+
+	}
+}
+
+void BigInteger::Normalize()
+{
+	while (true)
+	{
+
+	}
+}
+
+std::string BigInteger::ToString() const
+{
+	std::ostringstream oss;
+
+	if (m_isNegative)
+	{
+		oss << '-';
+	}
+
+	for (auto it = m_digits.crbegin(); it != m_digits.crend(); ++it)
+	{
+		oss << *it;
+	}
+
+	return oss.str();
 }

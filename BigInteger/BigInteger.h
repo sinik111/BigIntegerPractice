@@ -37,12 +37,11 @@ public:
 
 private:
 	BigInteger(std::vector<std::uint32_t>&& digits, bool isNegative);
+	BigInteger(const std::vector<std::uint32_t>& digits, bool isNegative);
 
 public:
 	BigInteger operator+(const BigInteger& other);
 	BigInteger operator-(const BigInteger& other);
-
-
 
 	bool operator<(const BigInteger& other) const;
 	bool operator>(const BigInteger& other) const;
@@ -50,4 +49,11 @@ public:
 	bool operator>=(const BigInteger& other) const;
 	bool operator==(const BigInteger& other) const;
 	bool operator!=(const BigInteger& other) const;
+
+private:
+	void Normalize(std::string& number);
+	void Normalize();
+
+public:
+	std::string ToString() const;
 };
