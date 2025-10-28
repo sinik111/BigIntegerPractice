@@ -7,7 +7,9 @@
 class BigInteger
 {
 private:
-	std::vector<std::uint32_t> m_digits;
+	using Digits = std::vector<std::uint32_t>;
+
+	Digits m_digits;
 	bool m_isNegative;
 
 	static constexpr std::uint64_t BASE = 1000000000ULL;
@@ -21,6 +23,17 @@ private:
 		1000000ULL,
 		10000000ULL,
 		100000000ULL
+	};
+	static constexpr const char* ZERO_PAD_STRINGS[9]{
+		"00000000",
+		"0000000",
+		"000000",
+		"00000",
+		"0000",
+		"000",
+		"00",
+		"0",
+		""
 	};
 
 public:
@@ -36,12 +49,47 @@ public:
 	BigInteger& operator=(BigInteger&& other) noexcept;
 
 private:
-	BigInteger(std::vector<std::uint32_t>&& digits, bool isNegative);
-	BigInteger(const std::vector<std::uint32_t>& digits, bool isNegative);
+	BigInteger(Digits&& digits, bool isNegative);
+	BigInteger(const Digits& digits, bool isNegative);
 
 public:
-	BigInteger operator+(const BigInteger& other);
-	BigInteger operator-(const BigInteger& other);
+	BigInteger operator+(const BigInteger& other) const;
+	BigInteger operator+(std::int32_t other) const;
+	BigInteger operator+(std::uint32_t other) const;
+	BigInteger operator+(std::int64_t other) const;
+	BigInteger operator+(std::uint64_t other) const;
+
+	BigInteger operator-(const BigInteger& other) const;
+	BigInteger operator-(std::int32_t other) const;
+	BigInteger operator-(std::uint32_t other) const;
+	BigInteger operator-(std::int64_t other) const;
+	BigInteger operator-(std::uint64_t other) const;
+
+	BigInteger operator*(const BigInteger& other) const;
+	BigInteger operator*(std::int32_t other) const;
+	BigInteger operator*(std::uint32_t other) const;
+	BigInteger operator*(std::int64_t other) const;
+	BigInteger operator*(std::uint64_t other) const;
+
+	BigInteger& operator+=(const BigInteger& other);
+	BigInteger& operator+=(std::int32_t other);
+	BigInteger& operator+=(std::uint32_t other);
+	BigInteger& operator+=(std::int64_t other);
+	BigInteger& operator+=(std::uint64_t other);
+
+	BigInteger& operator-=(const BigInteger& other);
+	BigInteger& operator-=(std::int32_t other);
+	BigInteger& operator-=(std::uint32_t other);
+	BigInteger& operator-=(std::int64_t other);
+	BigInteger& operator-=(std::uint64_t other);
+
+	BigInteger& operator*=(const BigInteger& other);
+	BigInteger& operator*=(std::int32_t other);
+	BigInteger& operator*=(std::uint32_t other);
+	BigInteger& operator*=(std::int64_t other);
+	BigInteger& operator*=(std::uint64_t other);
+
+	BigInteger operator-() const;
 
 	bool operator<(const BigInteger& other) const;
 	bool operator>(const BigInteger& other) const;
@@ -51,9 +99,20 @@ public:
 	bool operator!=(const BigInteger& other) const;
 
 private:
-	void Normalize(std::string& number);
+	bool IsValid(const std::string& number);
 	void Normalize();
+	
 
 public:
 	std::string ToString() const;
+	BigInteger Abs() const;
+
+private:
+	static void Add(const Digits& a, const Digits& b, Digits& out);
+	static void Subtract(const Digits& a, const Digits& b, Digits& out);
+	static void Multiply(const Digits& a, const Digits& b, Digits& out);
+
+	// return 1 when a > b, return 0 when a == b, return -1 when a < b
+	static int CompareMagnitude(const Digits& a, const Digits& b);
+	static int GetDigitCount(std::uint32_t number);
 };
