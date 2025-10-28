@@ -423,9 +423,49 @@ bool BigInteger::operator<(const BigInteger& other) const
 	return false;
 }
 
+bool BigInteger::operator<(std::int32_t other) const
+{
+	return *this < BigInteger(other);
+}
+
+bool BigInteger::operator<(std::uint32_t other) const
+{
+	return *this < BigInteger(other);
+}
+
+bool BigInteger::operator<(std::int64_t other) const
+{
+	return *this < BigInteger(other);
+}
+
+bool BigInteger::operator<(std::uint64_t other) const
+{
+	return *this < BigInteger(other);
+}
+
 bool BigInteger::operator>(const BigInteger& other) const
 {
 	return !(*this == other) && !(*this < other);
+}
+
+bool BigInteger::operator>(std::int32_t other) const
+{
+	return *this > BigInteger(other);
+}
+
+bool BigInteger::operator>(std::uint32_t other) const
+{
+	return *this > BigInteger(other);
+}
+
+bool BigInteger::operator>(std::int64_t other) const
+{
+	return *this > BigInteger(other);
+}
+
+bool BigInteger::operator>(std::uint64_t other) const
+{
+	return *this > BigInteger(other);
 }
 
 bool BigInteger::operator<=(const BigInteger& other) const
@@ -433,9 +473,49 @@ bool BigInteger::operator<=(const BigInteger& other) const
 	return (*this == other) || (*this < other);
 }
 
+bool BigInteger::operator<=(std::int32_t other) const
+{
+	return *this <= BigInteger(other);
+}
+
+bool BigInteger::operator<=(std::uint32_t other) const
+{
+	return *this <= BigInteger(other);
+}
+
+bool BigInteger::operator<=(std::int64_t other) const
+{
+	return *this <= BigInteger(other);
+}
+
+bool BigInteger::operator<=(std::uint64_t other) const
+{
+	return *this <= BigInteger(other);
+}
+
 bool BigInteger::operator>=(const BigInteger& other) const
 {
 	return (*this == other) || !(*this < other);
+}
+
+bool BigInteger::operator>=(std::int32_t other) const
+{
+	return *this >= BigInteger(other);
+}
+
+bool BigInteger::operator>=(std::uint32_t other) const
+{
+	return *this >= BigInteger(other);
+}
+
+bool BigInteger::operator>=(std::int64_t other) const
+{
+	return *this >= BigInteger(other);
+}
+
+bool BigInteger::operator>=(std::uint64_t other) const
+{
+	return *this >= BigInteger(other);
 }
 
 bool BigInteger::operator==(const BigInteger& other) const
@@ -461,9 +541,49 @@ bool BigInteger::operator==(const BigInteger& other) const
 	return true;
 }
 
+bool BigInteger::operator==(std::int32_t other) const
+{
+	return *this == BigInteger(other);
+}
+
+bool BigInteger::operator==(std::uint32_t other) const
+{
+	return *this == BigInteger(other);
+}
+
+bool BigInteger::operator==(std::int64_t other) const
+{
+	return *this == BigInteger(other);
+}
+
+bool BigInteger::operator==(std::uint64_t other) const
+{
+	return *this == BigInteger(other);
+}
+
 bool BigInteger::operator!=(const BigInteger& other) const
 {
 	return !(*this == other);
+}
+
+bool BigInteger::operator!=(std::int32_t other) const
+{
+	return *this != BigInteger(other);
+}
+
+bool BigInteger::operator!=(std::uint32_t other) const
+{
+	return *this != BigInteger(other);
+}
+
+bool BigInteger::operator!=(std::int64_t other) const
+{
+	return *this != BigInteger(other);
+}
+
+bool BigInteger::operator!=(std::uint64_t other) const
+{
+	return *this != BigInteger(other);
 }
 
 bool BigInteger::IsValid(const std::string& number)
@@ -638,6 +758,20 @@ void BigInteger::Multiply(const Digits& a, const Digits& b, Digits& out)
 
 		out[i + bSize] += static_cast<std::uint32_t>(carry);
 	}
+}
+
+void BigInteger::Divide(const Digits& a, const Digits& b, Digits& out)
+{
+	if (b.size() == 1 && b[0] == 0)
+	{
+		assert(false);
+
+		out.push_back(0);
+
+		return;
+	}
+
+	std::uint64_t d = BASE / (b[b.size() - 1] + 1);
 }
 
 int BigInteger::CompareMagnitude(const Digits& a, const Digits& b)

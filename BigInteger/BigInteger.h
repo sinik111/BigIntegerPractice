@@ -92,11 +92,40 @@ public:
 	BigInteger operator-() const;
 
 	bool operator<(const BigInteger& other) const;
+	bool operator<(std::int32_t other) const;
+	bool operator<(std::uint32_t other) const;
+	bool operator<(std::int64_t other) const;
+	bool operator<(std::uint64_t other) const;
+
 	bool operator>(const BigInteger& other) const;
+	bool operator>(std::int32_t other) const;
+	bool operator>(std::uint32_t other) const;
+	bool operator>(std::int64_t other) const;
+	bool operator>(std::uint64_t other) const;
+
 	bool operator<=(const BigInteger& other) const;
+	bool operator<=(std::int32_t other) const;
+	bool operator<=(std::uint32_t other) const;
+	bool operator<=(std::int64_t other) const;
+	bool operator<=(std::uint64_t other) const;
+
 	bool operator>=(const BigInteger& other) const;
+	bool operator>=(std::int32_t other) const;
+	bool operator>=(std::uint32_t other) const;
+	bool operator>=(std::int64_t other) const;
+	bool operator>=(std::uint64_t other) const;
+
 	bool operator==(const BigInteger& other) const;
+	bool operator==(std::int32_t other) const;
+	bool operator==(std::uint32_t other) const;
+	bool operator==(std::int64_t other) const;
+	bool operator==(std::uint64_t other) const;
+
 	bool operator!=(const BigInteger& other) const;
+	bool operator!=(std::int32_t other) const;
+	bool operator!=(std::uint32_t other) const;
+	bool operator!=(std::int64_t other) const;
+	bool operator!=(std::uint64_t other) const;
 
 private:
 	bool IsValid(const std::string& number);
@@ -111,6 +140,7 @@ private:
 	static void Add(const Digits& a, const Digits& b, Digits& out);
 	static void Subtract(const Digits& a, const Digits& b, Digits& out);
 	static void Multiply(const Digits& a, const Digits& b, Digits& out);
+	static void Divide(const Digits& a, const Digits& b, Digits& out);
 
 	// return 1 when a > b, return 0 when a == b, return -1 when a < b
 	static int CompareMagnitude(const Digits& a, const Digits& b);
