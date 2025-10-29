@@ -3,6 +3,7 @@
 #include <vector>
 #include <cstdint>
 #include <string>
+#include <iostream>
 
 class BigInteger
 {
@@ -71,6 +72,18 @@ public:
 	BigInteger operator*(std::int64_t other) const;
 	BigInteger operator*(std::uint64_t other) const;
 
+	BigInteger operator/(const BigInteger& other) const;
+	BigInteger operator/(std::int32_t other) const;
+	BigInteger operator/(std::uint32_t other) const;
+	BigInteger operator/(std::int64_t other) const;
+	BigInteger operator/(std::uint64_t other) const;
+
+	BigInteger operator%(const BigInteger& other) const;
+	BigInteger operator%(std::int32_t other) const;
+	BigInteger operator%(std::uint32_t other) const;
+	BigInteger operator%(std::int64_t other) const;
+	BigInteger operator%(std::uint64_t other) const;
+
 	BigInteger& operator+=(const BigInteger& other);
 	BigInteger& operator+=(std::int32_t other);
 	BigInteger& operator+=(std::uint32_t other);
@@ -88,6 +101,18 @@ public:
 	BigInteger& operator*=(std::uint32_t other);
 	BigInteger& operator*=(std::int64_t other);
 	BigInteger& operator*=(std::uint64_t other);
+
+	BigInteger& operator/=(const BigInteger& other);
+	BigInteger& operator/=(std::int32_t other);
+	BigInteger& operator/=(std::uint32_t other);
+	BigInteger& operator/=(std::int64_t other);
+	BigInteger& operator/=(std::uint64_t other);
+
+	BigInteger& operator%=(const BigInteger& other);
+	BigInteger& operator%=(std::int32_t other);
+	BigInteger& operator%=(std::uint32_t other);
+	BigInteger& operator%=(std::int64_t other);
+	BigInteger& operator%=(std::uint64_t other);
 
 	BigInteger operator-() const;
 
@@ -130,7 +155,6 @@ public:
 private:
 	bool IsValid(const std::string& number);
 	void Normalize();
-	
 
 public:
 	std::string ToString() const;
@@ -140,9 +164,13 @@ private:
 	static void Add(const Digits& a, const Digits& b, Digits& out);
 	static void Subtract(const Digits& a, const Digits& b, Digits& out);
 	static void Multiply(const Digits& a, const Digits& b, Digits& out);
-	static void Divide(const Digits& a, const Digits& b, Digits& out);
+	static void MultiplyByDigit(const Digits& a, std::uint32_t digit, Digits& out);
+	static void Divide(const Digits& dividend, const Digits& divisor, Digits& quotient, Digits& remainder);
 
 	// return 1 when a > b, return 0 when a == b, return -1 when a < b
 	static int CompareMagnitude(const Digits& a, const Digits& b);
 	static int GetDigitCount(std::uint32_t number);
+	static void NormalizeDigits(Digits& digits);
 };
+
+std::ostream& operator<<(std::ostream& os, const BigInteger& num);

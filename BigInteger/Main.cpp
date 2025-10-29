@@ -2,51 +2,16 @@
 
 #include "BigInteger.h"
 
-BigInteger Fibonacci(std::uint32_t n)
-{
-    if (n == 0)
-    {
-        return BigInteger(0);
-    }
-    if (n == 1)
-    {
-        return BigInteger(1);
-    }
-
-    BigInteger prev{ 0 };
-    BigInteger curr{ 1 };
-
-    for (std::uint32_t i = 2; i <= n; ++i)
-    {
-        BigInteger next = prev + curr;
-        prev = std::move(curr);
-        curr = std::move(next);
-    }
-
-    return curr;
-}
-
-BigInteger Factorial(std::uint32_t n)
-{
-    if (n == 0 || n == 1)
-    {
-        return BigInteger(1);
-    }
-
-    BigInteger result(1);
-
-    for (std::uint32_t i = 2; i <= n; ++i)
-    {
-        result *= i;
-    }
-
-    return result;
-}
-
 int main()
 {
-    BigInteger bigA{ "43290532525179818" };
-    BigInteger bigB{ "98237498163884773" };
+	BigInteger a{ "58249375892037584735809723758432758920543857489759483758947358978943758934" };
+	BigInteger b{ "48374809137580974329085728394570982375584390570983475983475983479857349778" };
 
-    std::cout << (bigA * bigB).ToString();
+	std::cout << "a = " << a << std::endl;
+	std::cout << "b = " << b << std::endl;
+	std::cout << "a + b = " << a + b << std::endl;
+	std::cout << "a - b = " << a - b << std::endl;
+	std::cout << "a * b = " << a * b << std::endl;
+	std::cout << "a / b = " << a / b << std::endl;
+	std::cout << "a % b = " << a % b << std::endl;
 }
