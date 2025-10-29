@@ -876,6 +876,8 @@ void BigInteger::Subtract(const Digits& bigger, const Digits& smaller, Digits& o
 
 void BigInteger::Multiply(const Digits& a, const Digits& b, Digits& out)
 {
+	// todo : FFT(또는 NTT)로 구현
+
 	out.clear();
 
 	const size_t aSize = a.size();
@@ -902,6 +904,8 @@ void BigInteger::Multiply(const Digits& a, const Digits& b, Digits& out)
 
 void BigInteger::MultiplyByDigit(const Digits& a, std::uint32_t digit, Digits& out)
 {
+	// todo : FFT(또는 NTT)로 구현
+
 	out.clear();
 
 	if (digit == 0)
@@ -930,6 +934,8 @@ void BigInteger::MultiplyByDigit(const Digits& a, std::uint32_t digit, Digits& o
 
 void BigInteger::Divide(const Digits& dividend, const Digits& divisor, Digits& quotient, Digits& remain)
 {
+	// todo : Knuth Algorithm D 로 구현
+
 	quotient.clear();
 	remain.clear();
 
